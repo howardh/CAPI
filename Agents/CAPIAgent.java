@@ -45,7 +45,6 @@ public class CAPIAgent extends Agent
 		Action[] actions;
 		for (State s : stateSpace)
 		{
-			//TODO: Initialize Action values
 			actions = env.getPossibleActions();
 			this.stateValue.put(s, 0.0);
 			this.policy.put(s, actions[0]);
@@ -54,12 +53,6 @@ public class CAPIAgent extends Agent
 			{
 				this.actionValue.put(new StateActionPair(s, a),0.0);
 			}
-		}
-		
-		//FIXME: Debugging stuff. Remove me. (It looks like starting with a different policy doesn't change anything)
-		for (int i = stateSpace.length/2; i < stateSpace.length-1; i++)
-		{
-			this.gPolicy.put(stateSpace[i], env.getPossibleActions()[0]);
 		}
 	}
 
@@ -70,13 +63,8 @@ public class CAPIAgent extends Agent
 		this.constructPolicy();
 	}
 	
-	public void policyEvaluation() //TODO: Check if it's complete
+	public void policyEvaluation()
 	{
-		/*
-		 * 			while the largest change is not small enough (delta > theta)
-		 * 				foreach s and a
-		 * 					Q(s,a) = Reward(s,a,s+a) + gamma*Q(s+a,pi[s+a])
-		 */
 		double delta;
 		do
 		{
@@ -107,7 +95,7 @@ public class CAPIAgent extends Agent
 	{
 		for (State s : stateSpace)
 		{
-			gPolicy.put(s, this.getGreedyAction(s)); //FIXME: WHY DOES THIS GIVE A DIFFERENT RESULT WHEN STORED IN policy AND gPolicy???
+			gPolicy.put(s, this.getGreedyAction(s)); 
 		}
 	}
 	
@@ -129,6 +117,7 @@ public class CAPIAgent extends Agent
 		return bestAction;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void constructPolicy() 
 	{
 		//TODO complete me.
@@ -187,23 +176,7 @@ public class CAPIAgent extends Agent
 	
 	public double getLoss(State s, Action currentAction)
 	{
-		if (currentAction.equals(this.gPolicy.get(s))) return 0;
-		return getActionGap(s);
-	}
-	
-	public double getActionGap(State s)
-	{
-		Action[] actions = env.getPossibleActions(s);
-		if (actions.length == 2)
-		{
-			return Math.abs(this.getActionValue(s, actions[0]) - this.getActionValue(s, actions[1]));
-		}
-		if (actions.length > 2)
-		{
-			System.err.println("Something's wrong");
-			return 0;
-		}
-		return 0;
+		return Math.abs(this.getActionValue(s, currentAction) - this.getActionValue(s, this.gPolicy.get(s)));
 	}
 	
 	public void displayPolicy()

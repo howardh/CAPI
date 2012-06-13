@@ -10,7 +10,7 @@ public class Main
 		
 		//valueIteration(env);
 		//policyIteration(env);
-		//capi(env);
+		capi(env);
 		//capi2(env);
 	}
 	
