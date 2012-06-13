@@ -33,13 +33,13 @@ public class CAPIAgent extends Agent
 	final double gamma = 0.99;
 	final double theta = 0.00000001;
 	
-	protected HashMap<State,Action> gPolicy; //Greedy policy
+	protected Policy gPolicy; //Greedy policy
 	
 	public CAPIAgent(Environment e)
 	{
 		super(e);
 		
-		gPolicy = new HashMap<State,Action>();
+		gPolicy = new Policy();
 		
 		this.stateSpace = e.getStateSpace();
 		Action[] actions;
@@ -133,7 +133,7 @@ public class CAPIAgent extends Agent
 		}
 		double currentLoss = Double.MAX_VALUE;
 		
-		HashMap<State,Action> bestPolicy = (HashMap<State, Action>) currentPolicy.clone();
+		Policy bestPolicy = (Policy) currentPolicy.clone();
 		double bestLoss = Double.MAX_VALUE;
 		
 		for (State s : stateSpace)
@@ -144,7 +144,7 @@ public class CAPIAgent extends Agent
 			if (currentLoss < bestLoss)
 			{
 				bestLoss = currentLoss;
-				bestPolicy = (HashMap<State, Action>) currentPolicy.clone();
+				bestPolicy = (Policy) currentPolicy.clone();
 			}
 		}
 		
@@ -155,7 +155,7 @@ public class CAPIAgent extends Agent
 			if (currentLoss < bestLoss)
 			{
 				bestLoss = currentLoss;
-				bestPolicy = (HashMap<State, Action>) currentPolicy.clone();
+				bestPolicy = (Policy) currentPolicy.clone();
 			}
 		}
 		
@@ -186,7 +186,7 @@ public class CAPIAgent extends Agent
 		System.out.print("-");
 		env.displayPolicy(this.policy);
 	}
-	public void displayPolicy(HashMap<State,Action> pi)
+	public void displayPolicy(Policy pi)
 	{
 		env.displayPolicy(pi);
 	}

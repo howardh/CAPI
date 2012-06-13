@@ -8,7 +8,7 @@ public class Gridworld extends Environment
 	final double alpha = 1;
 	final double theta = 1e-24;
 	
-	final char[][] world =
+	final static char[][] world =
 		{
 			{' ',' ',' ',' ',' ',' ',' '},
 			{' ',' ',' ',' ',' ',' ',' '},
@@ -18,7 +18,7 @@ public class Gridworld extends Environment
 			{' ',' ',' ',' ',' ',' ',' '},
 			{' ',' ',' ',' ',' ',' ',' '},
 		};
-	final double[][] reward =
+	final static double[][] reward =
 		{
 			{0,0,0,0,0,0,0},
 			{1,1,1,0,0,0,0},
@@ -29,6 +29,8 @@ public class Gridworld extends Environment
 			{0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0},
 		};
+	final static int WIDTH = world.length;	
+	final static int HEIGHT = world[0].length;	
 	
 	public Gridworld()
 	{
@@ -47,7 +49,7 @@ public class Gridworld extends Environment
 			for (State s : stateSpace)
 			{
 				double prevV = this.stateValue.get(s);
-				this.stateValue.put(s, this.computeStateValue(s) ); //TODO
+				this.stateValue.put(s, this.computeStateValue(s) );
 				delta = Math.max(delta, Math.abs(prevV - this.stateValue.get(s)));
 			}
 		} while (delta > theta);
@@ -66,7 +68,7 @@ public class Gridworld extends Environment
 		double maxVal = -Double.MAX_VALUE;
 		for (Action a : actions)
 		{
-			maxVal = Math.max(maxVal, this.stateValue.get(this.getNextState(s, a)));
+			maxVal = Math.max(maxVal, this.stateValue.get(this.getNextState(s, a))); //FIXME: This is stochastic. Should be using the known transition probabilities.
 		}
 		return this.getReward(s)+gamma*maxVal;
 	}
@@ -174,7 +176,7 @@ public class Gridworld extends Environment
 		return this.getReward(sap.state, sap.action, finalState);
 	}
 	
-	public void displayPolicy(HashMap<State,Action> policy)
+	public void displayPolicy(Policy policy)
 	{
 		for (int y = 0; y < world[0].length; y++)
 		{

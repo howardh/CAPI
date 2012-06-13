@@ -4,7 +4,7 @@ public abstract class Agent
 {
 	protected HashMap<StateActionPair,Double> actionValue;	//Q
 	protected HashMap<State,Double> stateValue;		//V
-	protected HashMap<State,Action> policy;			//pi //TODO: This assumes that the policy is deterministic
+	protected Policy policy;			//pi //TODO: This assumes that the policy is deterministic
 	protected Environment env;
 	
 	public Agent(Environment e)
@@ -12,7 +12,7 @@ public abstract class Agent
 		env = e;
 		actionValue = new HashMap<StateActionPair,Double>();
 		stateValue = new HashMap<State,Double>();
-		policy = new HashMap<State,Action>();
+		policy = new Policy();
 	}
 	
 	public abstract void loop();

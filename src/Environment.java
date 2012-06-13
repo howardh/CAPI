@@ -82,7 +82,7 @@ public abstract class Environment
 		return bestActionValue;
 	}
 	//Values under a fixed policy
-	public HashMap<State,Double> computeStateValues(HashMap<State,Action> pi) //TODO: Verify correctness
+	public HashMap<State,Double> computeStateValues(Policy pi) //TODO: Verify correctness
 	{
 		//Declare/Initialise variables
 		HashMap<State,Double> val = new HashMap<State,Double>();
@@ -122,7 +122,7 @@ public abstract class Environment
 		return val;
 	}
 	//Loss function (for graphing purposes)
-	public double computeLoss(HashMap<State,Action> policy)
+	public double computeLoss(Policy policy)
 	{
 		State[] ss = this.getStateSpace();
 		HashMap<State,Double> vHat = this.computeStateValues(policy);
@@ -174,7 +174,7 @@ public abstract class Environment
 	public abstract double getReward(StateActionPair sap, State finalState);
 	
 	//Output
-	public void displayPolicy(HashMap<State,Action> policy) { System.err.println("The displayPolicy() method was not overridden"); } //TODO: Should be overridden
+	public void displayPolicy(Policy policy) { System.err.println("The displayPolicy() method was not overridden"); } //TODO: Should be overridden
 	public void displayStateValues()
 	{
 		for (State s : this.getStateSpace())
