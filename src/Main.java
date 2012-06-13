@@ -3,7 +3,7 @@ public class Main
 {
 	public static void main(String args[])
 	{
-		Chain env = new Chain();
+		Gridworld env = new Gridworld();
 		env.computeValues();
 		//env.displayActionValues();
 		//env.displayStateValues();

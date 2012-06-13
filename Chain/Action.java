@@ -2,10 +2,10 @@
 
 public class Action
 {
-	static public final int UP = 1,
-							DOWN = 2, 
-							LEFT = 3,
-							RIGHT = 4;
+	static public final int UP = 0,
+							DOWN = 1, 
+							LEFT = 2,
+							RIGHT = 3;
 	
 	public Action(){}
 	public Action(int d)

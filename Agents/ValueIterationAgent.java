@@ -72,10 +72,6 @@ public class ValueIterationAgent extends Agent
 	
 	public void displayPolicy()
 	{
-		for (State s : stateSpace)
-		{
-			System.out.print(policy.get(s).action.equals("-1")?"<":">");
-		}
-		System.out.println();
+		env.displayPolicy(policy);
 	}
 }

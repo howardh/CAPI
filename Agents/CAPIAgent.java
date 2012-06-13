@@ -188,10 +188,6 @@ public class CAPIAgent extends Agent
 	}
 	public void displayPolicy(HashMap<State,Action> pi)
 	{
-		for (State s : stateSpace)
-		{
-			System.out.print(pi.get(s).action.equals("-1")?"<":">");
-		}
-		System.out.println();
+		env.displayPolicy(pi);
 	}
 }
