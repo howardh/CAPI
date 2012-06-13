@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Vector;
 
 
 public class Gridworld extends Environment
@@ -8,10 +9,15 @@ public class Gridworld extends Environment
 	final double alpha = 1;
 	final double theta = 1e-24;
 	
+	/**
+	 * ' ' = empty space
+	 * 'x' = wall/obstacle
+	 */
 	final static char[][] world =
 		{
 			{' ',' ',' ',' ',' ',' ',' '},
-			{' ',' ',' ',' ',' ',' ',' '},
+			{' ',' ',' ','x',' ',' ',' '},
+			{'x','x','x','x','x','x',' '},
 			{' ',' ',' ',' ',' ',' ',' '},
 			{' ',' ',' ',' ',' ',' ',' '},
 			{' ',' ',' ',' ',' ',' ',' '},
@@ -21,20 +27,33 @@ public class Gridworld extends Environment
 	final static double[][] reward =
 		{
 			{0,0,0,0,0,0,0},
-			{1,1,1,0,0,0,0},
+			{1,1,0,0,0,0,0},
 			{0,0,0,0,0,0,0},
+			{1,1,0,0,0,0,0},
 			{0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0},
 		};
-	final static int WIDTH = world.length;	
-	final static int HEIGHT = world[0].length;	
+	final static int WIDTH = world[0].length;	
+	final static int HEIGHT = world.length;	
 	
 	public Gridworld()
 	{
 		this.stateSpace = this.getStateSpace();
+	}
+	
+	private char getSquare(int x, int y)
+	{
+		try
+		{
+			return world[y][x];
+		}
+		catch (ArrayIndexOutOfBoundsException e)
+		{
+			return 'x';
+		}
 	}
 	
 	/**
@@ -119,8 +138,14 @@ public class Gridworld extends Environment
 	
 	public Action[] getPossibleActions(State s) //TODO
 	{
-		Action[] result = {new Action(Action.UP),new Action(Action.DOWN),new Action(Action.LEFT),new Action(Action.RIGHT),};
-		return result;
+		Vector<Action> result = new Vector<Action>();
+		
+		if (this.getSquare(s.x-1, s.y) == ' ') result.add(new Action(Action.LEFT));
+		if (this.getSquare(s.x+1, s.y) == ' ') result.add(new Action(Action.RIGHT));
+		if (this.getSquare(s.x, s.y-1) == ' ') result.add(new Action(Action.UP));
+		if (this.getSquare(s.x, s.y+1) == ' ') result.add(new Action(Action.DOWN));
+		
+		return (Action[])(result.toArray(new Action[result.size()]));
 	}
 
 	public State[] getPossibleNextStates(State s, Action a) {
@@ -132,6 +157,7 @@ public class Gridworld extends Environment
 
 	public TransitionProbability[] getTransitionProbabilities(State s, Action a) //TODO
 	{
+		/*
 		TransitionProbability[] result = new TransitionProbability[4];
 		
 		//Up
@@ -157,13 +183,25 @@ public class Gridworld extends Environment
 		result[3].probability = 0.25;
 		result[3].saPair = new StateActionPair(s,a);
 		result[3].state = new State(s.x-1,s.y);
+		*/
+		TransitionProbability[] result = new TransitionProbability[1];
+		result[0] = new TransitionProbability();
+		result[0].probability = 1;
+		result[0].saPair = new StateActionPair(s,a);
+		switch (a.action)
+		{
+			case Action.UP: result[0].state = new State(s.x,s.y-1); break;
+			case Action.DOWN: result[0].state = new State(s.x,s.y+1); break;
+			case Action.LEFT: result[0].state = new State(s.x-1,s.y); break;
+			case Action.RIGHT: result[0].state = new State(s.x+1,s.y); break;
+		}
 		
 		return result;
 	}
 
 	public double getReward(State s)
 	{
-		return this.reward[s.x][s.y];
+		return reward[s.y][s.x];
 	}
 
 	public double getReward(State s, Action a, State finalState)
@@ -176,11 +214,11 @@ public class Gridworld extends Environment
 		return this.getReward(sap.state, sap.action, finalState);
 	}
 	
-	public void displayPolicy(Policy policy)
+	public void displayPolicy(Policy policy) //FIXME: x and y coordinates are somehow flipped here
 	{
-		for (int y = 0; y < world[0].length; y++)
+		for (int y = 0; y < world.length; y++)
 		{
-			for (int x = 0; x < world.length; x++)
+			for (int x = 0; x < world[y].length; x++)
 			{
 				switch (policy.get(new State(x,y)).action)
 				{
@@ -189,6 +227,19 @@ public class Gridworld extends Environment
 					case Action.LEFT: 	System.out.print("<"); break;
 					case Action.RIGHT: 	System.out.print(">"); break;
 				}
+			}
+			System.out.println();
+		}
+		System.out.println();
+	}
+	
+	public void displayEnvironment()
+	{
+		for (int y = 0; y < world.length; y++)
+		{
+			for (int x = 0; x < world[y].length; x++)
+			{
+				System.out.print(world[y][x]);
 			}
 			System.out.println();
 		}
