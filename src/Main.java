@@ -4,15 +4,21 @@ public class Main
 	public static void main(String args[])
 	{
 		Gridworld env = new Gridworld();
-		env.displayEnvironment();
-		env.computeValues();
+		//env.displayEnvironment();
+		//env.computeValues();
 		//env.displayActionValues();
 		//env.displayStateValues();
 		
-		valueIteration(env);
+		//valueIteration(env);
 		//policyIteration(env);
 		//capi(env);
 		//capi2(env);
+		
+		CPolicy p = new CPolicy();
+		do
+		{
+			env.displayPolicy(p);
+		} while (p.next());
 	}
 	
 	static void policyIteration(Environment env)
@@ -25,7 +31,7 @@ public class Main
 			pia.loop();
 			System.out.println(i + " " + env.computeLoss(pia.policy));
 		}
-		//pia.displayPolicy();
+		pia.displayPolicy();
 		//pia.displayStateValue();
 	}
 	
@@ -35,11 +41,11 @@ public class Main
 		//via.displayStateValue();
 		for (int i = 0; i < 30; i++)
 		{
-			via.displayPolicy();
+			//via.displayPolicy();
 			via.loop();
-			//System.out.println(i + " " + env.computeLoss(via.policy));
+			System.out.println(i + " " + env.computeLoss(via.policy));
 		}
-		via.displayPolicy();
+		//via.displayPolicy();
 		//via.displayStateValues();
 	}
 	

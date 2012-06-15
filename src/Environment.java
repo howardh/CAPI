@@ -138,7 +138,7 @@ public abstract class Environment
 	public abstract State[] getStateSpace();
 	
 	//Gives all actions that can be taken at a particular state
-	public abstract Action[] getPossibleActions();
+	public static Action[] getPossibleActions() { System.err.println("Environment.getPossibleActions() not overridden."); return null; }
 	public abstract Action[] getPossibleActions(State s);
 	
 	//Gives an array of all possible states that can come of taking action a at state s

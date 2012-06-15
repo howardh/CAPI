@@ -36,6 +36,7 @@ public class Gridworld extends Environment
 			{0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0},
 		};
+	
 	final static int WIDTH = world[0].length;	
 	final static int HEIGHT = world.length;	
 	
@@ -130,7 +131,7 @@ public class Gridworld extends Environment
 		return result;
 	}
 	
-	public Action[] getPossibleActions()
+	public static Action[] getPossibleActions()
 	{
 		Action[] result = {new Action(Action.UP), new Action(Action.DOWN), new Action(Action.LEFT), new Action(Action.RIGHT)};
 		return result;

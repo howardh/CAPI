@@ -31,7 +31,7 @@ public class CAPIAgent extends Agent
 {
 	State[] stateSpace;
 	final double gamma = 0.99;
-	final double theta = 0.00000001;
+	final double theta = 1e-24;
 	
 	protected Policy gPolicy; //Greedy policy
 	
@@ -181,9 +181,9 @@ public class CAPIAgent extends Agent
 	
 	public void displayPolicy()
 	{
-		System.out.print("g");
+		System.out.println("g");
 		env.displayPolicy(this.gPolicy);
-		System.out.print("-");
+		System.out.println("-");
 		env.displayPolicy(this.policy);
 	}
 	public void displayPolicy(Policy pi)
