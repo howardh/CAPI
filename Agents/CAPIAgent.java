@@ -33,22 +33,23 @@ public class CAPIAgent extends Agent
 	final double gamma = 0.99;
 	final double theta = 1e-24;
 	
-	public CPolicy policy;
+	//public CPolicy policy;
 	protected Policy gPolicy; //Greedy policy
 	
 	public CAPIAgent(Environment e)
 	{
 		super(e);
 		
+		policy = new CPolicy();
 		gPolicy = new Policy();
 		
 		this.stateSpace = e.getStateSpace();
 		Action[] actions;
 		for (State s : stateSpace)
 		{
-			actions = env.getPossibleActions();
+			actions = Gridworld.getPossibleActions();	//FIXME: Should be no reference to Gridworld here
 			this.stateValue.put(s, 0.0);
-			this.policy.put(s, actions[0]);
+			//this.policy.put(s, actions[0]);
 			this.gPolicy.put(s, actions[0]);
 			for (Action a : actions)
 			{
@@ -125,7 +126,7 @@ public class CAPIAgent extends Agent
 		//TODO: Make this work for any environment
 		//FIXME: This assumes that the provided state space is in numerical order.
 		//FIXME: The tested policy space is missing two policies. They're marked below.
-		Action[] a = env.getPossibleActions();
+		Action[] a = Gridworld.getPossibleActions(); //FIXME: Remove reference to Gridworld here
 		
 		CPolicy currentPolicy = new CPolicy();
 		for (State s : stateSpace) 

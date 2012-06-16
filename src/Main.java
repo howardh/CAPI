@@ -4,21 +4,23 @@ public class Main
 	public static void main(String args[])
 	{
 		Gridworld env = new Gridworld();
-		//env.displayEnvironment();
-		//env.computeValues();
+		env.displayEnvironment();
+		env.computeValues();
 		//env.displayActionValues();
 		//env.displayStateValues();
 		
 		//valueIteration(env);
 		//policyIteration(env);
-		//capi(env);
+		capi(env);
 		//capi2(env);
 		
+		/*
 		CPolicy p = new CPolicy();
 		do
 		{
 			env.displayPolicy(p);
 		} while (p.next());
+		*/
 	}
 	
 	static void policyIteration(Environment env)
