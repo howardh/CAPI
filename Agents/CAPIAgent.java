@@ -133,35 +133,19 @@ public class CAPIAgent extends Agent
 		{
 			currentPolicy.put(s, a[0]);
 		}
-		double currentLoss = Double.MAX_VALUE;
-		
+		double currentLoss;
 		CPolicy bestPolicy = new CPolicy(currentPolicy);
-		double bestLoss = Double.MAX_VALUE;
+		double bestLoss = this.getLoss(currentPolicy);
 		
-		for (State s : stateSpace)
+		do
 		{
-			currentPolicy.put(s, a[1]);
-			
 			currentLoss = this.getLoss(currentPolicy);
 			if (currentLoss < bestLoss)
 			{
 				bestLoss = currentLoss;
 				bestPolicy = new CPolicy(currentPolicy);
 			}
-		}
-		
-		for (State s : stateSpace)
-		{
-			currentPolicy.put(s, a[0]);
-			currentLoss = this.getLoss(currentPolicy);
-			if (currentLoss < bestLoss)
-			{
-				bestLoss = currentLoss;
-				bestPolicy = new CPolicy(currentPolicy);
-			}
-		}
-		
-		//TODO: Missed a case here too
+		} while (currentPolicy.next());
 		
 		policy = bestPolicy;
 	}

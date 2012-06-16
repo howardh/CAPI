@@ -37,8 +37,8 @@ public class Gridworld extends Environment
 //			{0,0,0,0,0,0,0},
 //		};
 	
-	final static char[][] world = {{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '}};
-	final static double[][] reward = {{1,0,0,0,0,0,0,0,0,0}};
+	final static char[][] world = {{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '}};
+	final static double[][] reward = {{1,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,1}};
 	final static int WIDTH = world[0].length;	
 	final static int HEIGHT = world.length;	
 	
