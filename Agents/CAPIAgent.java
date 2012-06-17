@@ -47,9 +47,8 @@ public class CAPIAgent extends Agent
 		Action[] actions;
 		for (State s : stateSpace)
 		{
-			actions = Gridworld.getPossibleActions();	//FIXME: Should be no reference to Gridworld here
+			actions = env.getPossibleActions(s);
 			this.stateValue.put(s, 0.0);
-			//this.policy.put(s, actions[0]);
 			this.gPolicy.put(s, actions[0]);
 			for (Action a : actions)
 			{
@@ -167,9 +166,9 @@ public class CAPIAgent extends Agent
 	
 	public void displayPolicy()
 	{
-		System.out.println("g");
+		System.out.print("g");
 		env.displayPolicy(this.gPolicy);
-		System.out.println("-");
+		System.out.print("-");
 		env.displayPolicy(this.policy);
 	}
 	public void displayPolicy(Policy pi)

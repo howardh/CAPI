@@ -37,8 +37,26 @@ public class Gridworld extends Environment
 //			{0,0,0,0,0,0,0},
 //		};
 	
-	final static char[][] world = {{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '}};
-	final static double[][] reward = {{1,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,1}};
+	final static char[][] world = {{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+		' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+		' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+		' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+		' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+		' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+		' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+		' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+		' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+		' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',}};
+	final static double[][] reward = {{0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,
+									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+									0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0,0,0,0,0,0,0,0,0,0,}};
 	final static int WIDTH = world[0].length;	
 	final static int HEIGHT = world.length;	
 	
@@ -141,14 +159,15 @@ public class Gridworld extends Environment
 	
 	public Action[] getPossibleActions(State s) //TODO
 	{
-		Vector<Action> result = new Vector<Action>();
-		
-		if (this.getSquare(s.x-1, s.y) == ' ') result.add(new Action(Action.LEFT));
-		if (this.getSquare(s.x+1, s.y) == ' ') result.add(new Action(Action.RIGHT));
-		if (this.getSquare(s.x, s.y-1) == ' ') result.add(new Action(Action.UP));
-		if (this.getSquare(s.x, s.y+1) == ' ') result.add(new Action(Action.DOWN));
-		
-		return (Action[])(result.toArray(new Action[result.size()]));
+		return Gridworld.getPossibleActions();
+//		Vector<Action> result = new Vector<Action>();
+//		
+//		if (this.getSquare(s.x-1, s.y) == ' ') result.add(new Action(Action.LEFT));
+//		if (this.getSquare(s.x+1, s.y) == ' ') result.add(new Action(Action.RIGHT));
+//		if (this.getSquare(s.x, s.y-1) == ' ') result.add(new Action(Action.UP));
+//		if (this.getSquare(s.x, s.y+1) == ' ') result.add(new Action(Action.DOWN));
+//		
+//		return (Action[])(result.toArray(new Action[result.size()]));
 	}
 
 	public State[] getPossibleNextStates(State s, Action a) {
@@ -160,33 +179,59 @@ public class Gridworld extends Environment
 
 	public TransitionProbability[] getTransitionProbabilities(State s, Action a) //TODO
 	{
-		/*
 		TransitionProbability[] result = new TransitionProbability[4];
 		
 		//Up
 		result[0] = new TransitionProbability();
-		result[0].probability = 0.25;
+		result[0].probability = 0;
 		result[0].saPair = new StateActionPair(s,a);
 		result[0].state = new State(s.x,s.y-1);
 		
 		//Down
 		result[1] = new TransitionProbability();
-		result[1].probability = 0.25;
+		result[1].probability = 0;
 		result[1].saPair = new StateActionPair(s,a);
 		result[1].state = new State(s.x,s.y-1);
 		
 		//Left
 		result[2] = new TransitionProbability();
-		result[2].probability = 0.25;
+		result[2].probability = 0;
 		result[2].saPair = new StateActionPair(s,a);
-		result[2].state = new State(s.x+1,s.y);
+		result[2].state = new State(s.x-1,s.y);
 		
 		//Right
 		result[3] = new TransitionProbability();
-		result[3].probability = 0.25;
+		result[3].probability = 0;
 		result[3].saPair = new StateActionPair(s,a);
-		result[3].state = new State(s.x-1,s.y);
-		*/
+		result[3].state = new State(s.x+1,s.y);
+		
+		//Increase probability of success
+		result[a.action].probability += 2;
+		
+		//Check for obstacles
+		final int delta[][] = {{0,-1},{0,1},{-1,0},{1,0}};
+		for (int i = 0; i < 4; i++)
+		{
+			if (this.getSquare(s.x+delta[i][0], s.y+delta[i][1]) == 'x')
+			{
+				//No movement
+				result[i].state = new State(s.x,s.y);
+			}
+		}
+		
+		//Normalize
+		double totalProb = 0;
+		for (TransitionProbability tp : result)
+		{
+			totalProb += tp.probability;
+		}
+		for (TransitionProbability tp : result)
+		{
+			tp.probability /= totalProb;
+		}
+		
+		
+		/*
 		TransitionProbability[] result = new TransitionProbability[1];
 		result[0] = new TransitionProbability();
 		result[0].probability = 1;
@@ -198,7 +243,7 @@ public class Gridworld extends Environment
 			case Action.LEFT: result[0].state = new State(s.x-1,s.y); break;
 			case Action.RIGHT: result[0].state = new State(s.x+1,s.y); break;
 		}
-		
+		*/
 		return result;
 	}
 
@@ -209,7 +254,7 @@ public class Gridworld extends Environment
 
 	public double getReward(State s, Action a, State finalState)
 	{
-		return getReward(finalState);
+		return getReward(s);
 	}
 
 	public double getReward(StateActionPair sap, State finalState)
@@ -217,7 +262,7 @@ public class Gridworld extends Environment
 		return this.getReward(sap.state, sap.action, finalState);
 	}
 	
-	public void displayPolicy(Policy policy) //FIXME: x and y coordinates are somehow flipped here
+	public void displayPolicy(Policy policy) 
 	{
 		for (int y = 0; y < world.length; y++)
 		{
@@ -233,7 +278,7 @@ public class Gridworld extends Environment
 			}
 			System.out.println();
 		}
-		System.out.println();
+		//System.out.println();
 	}
 	
 	public void displayEnvironment()
