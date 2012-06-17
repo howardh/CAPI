@@ -41,28 +41,24 @@ public abstract class Environment
 			}
 		}
 		//Compute
-		double delta = 0;
+		double delta;
 		do
 		{
 			delta = 0;
-			for (State s : ss)
+			for (State s : ss) for (Action a : this.getPossibleActions(s)) //For each state-action pair
 			{
-				Action[] as = this.getPossibleActions(s); //Action space
-				for (Action a : as)
+				StateActionPair sap = new StateActionPair(s,a);
+				double prevV = this.actionValue.get(sap);
+				
+				TransitionProbability[] tProbs = this.getTransitionProbabilities(s, a);
+				double tempV = 0;
+				for (TransitionProbability tp : tProbs)
 				{
-					StateActionPair sap = new StateActionPair(s,a);
-					double prevV = this.actionValue.get(sap);
-					
-					TransitionProbability[] tProbs = this.getTransitionProbabilities(s, a);
-					double tempV = 0;
-					for (TransitionProbability tp : tProbs)
-					{
-						tempV += tp.probability*(this.getReward(s,a,tp.state) + gamma*this.getBestActionValue(tp.state));
-					}
-					this.actionValue.put(sap, tempV);
-					
-					delta = Math.max(delta, Math.abs(prevV - this.actionValue.get(sap)));
+					tempV += tp.probability*(this.getReward(s,a,tp.state) + gamma*this.getBestActionValue(tp.state));
 				}
+				this.actionValue.put(sap, tempV);
+				
+				delta = Math.max(delta, Math.abs(prevV - this.actionValue.get(sap)));
 			}
 		} while (delta > theta);
 	}
@@ -93,26 +89,21 @@ public abstract class Environment
 		}
 		
 		double delta;
-		TransitionProbability[] tProbs;
-		double tempV; //Temporary value
-		double prevV;
 		do
 		{
 			delta = 0;
 			for (State s : ss)
 			{
-				prevV = val.get(s);
+				double prevV = val.get(s);
 				
 				//Transition probabilities of all possible resulting states from following policy pi at state s
-				tProbs = this.getTransitionProbabilities(s, pi.get(s));
+				TransitionProbability[] tProbs = this.getTransitionProbabilities(s, pi.get(s));
 				//Expected value
-				tempV = 0;
+				double tempV = 0;
 				for (TransitionProbability tp : tProbs)
 				{
-					tempV += tp.probability*val.get(tp.state);
+					tempV += tp.probability*( this.getReward(tp.saPair, tp.state) + gamma*val.get(tp.state) );
 				}
-				tempV *= gamma;
-				tempV += this.getReward(s);
 				val.put(s, tempV);
 				
 				delta = Math.max(delta, Math.abs(prevV - val.get(s)));
