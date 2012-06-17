@@ -79,42 +79,6 @@ public class Gridworld extends Environment
 	}
 	
 	/**
-	 * Updates "stateValue" to contain an approximation of the state value under the optimal policy
-	 */
-	public void computeStateValues()
-	{
-		double delta;
-		do
-		{
-			delta = 0;
-			for (State s : stateSpace)
-			{
-				double prevV = this.stateValue.get(s);
-				this.stateValue.put(s, this.computeStateValue(s) );
-				delta = Math.max(delta, Math.abs(prevV - this.stateValue.get(s)));
-			}
-		} while (delta > theta);
-	}
-	
-	/**
-	 * 
-	 * @param s
-	 * 		The state whose value is to be computed
-	 * @return
-	 * 		The value of the given state using the current approximation of the state values
-	 */
-	public double computeStateValue(State s)
-	{
-		Action actions[] = this.getPossibleActions(s);
-		double maxVal = -Double.MAX_VALUE;
-		for (Action a : actions)
-		{
-			maxVal = Math.max(maxVal, this.stateValue.get(this.getNextState(s, a))); //FIXME: This is stochastic. Should be using the known transition probabilities.
-		}
-		return this.getReward(s)+gamma*maxVal;
-	}
-	
-	/**
 	 * Outputs the values of each state (computed using "computeStateValues()") through standard output.
 	 */
 	public void displayStateValues()

@@ -1,3 +1,4 @@
+
 import java.util.HashMap;
 
 /**
@@ -164,7 +165,7 @@ public abstract class Environment
 	public abstract double getReward(StateActionPair sap, State finalState);
 	
 	//Output
-	public void displayPolicy(Policy policy) { System.err.println("The displayPolicy() method was not overridden"); } //TODO: Should be overridden
+	public void displayPolicy(Policy policy) { System.err.println("The displayPolicy() method was not overridden"); }
 	public void displayStateValues()
 	{
 		for (State s : this.getStateSpace())

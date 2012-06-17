@@ -15,8 +15,9 @@ public class PolicyIterationAgent extends Agent
 		{
 			this.stateValue.put(s, 0.0);
 			actions = env.getPossibleActions(s);
-			this.policy.put(s, actions[(int)(Math.random()*Integer.MAX_VALUE)%actions.length]);
+			//this.policy.put(s, actions[(int)(Math.random()*Integer.MAX_VALUE)%actions.length]);
 			//this.policy.put(s, actions[0]);
+			this.policy.put(s, actions.length==2?actions[1]:actions[0]);
 		}
 	}
 
