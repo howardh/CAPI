@@ -63,6 +63,7 @@ public class Gridworld extends Environment
 	
 	public Gridworld()
 	{
+		super();
 		this.stateSpace = this.getStateSpace();
 	}
 	
@@ -85,7 +86,7 @@ public class Gridworld extends Environment
 	{
 		for (State s : stateSpace)
 		{
-			System.out.println(s.state + "\t" + this.stateValue.get(s));
+			System.out.println(s.state + "\t" + this.value.get(s));
 		}
 	}
 	public void displayActionValues()
@@ -97,7 +98,7 @@ public class Gridworld extends Environment
 			System.out.print(s.state);
 			for (Action a : as)
 			{
-				System.out.print("\t" + this.actionValue.get(new StateActionPair(s,a)));
+				System.out.print("\t" + this.value.get(new StateActionPair(s,a)));
 			}
 			System.out.println();
 		}
@@ -122,7 +123,7 @@ public class Gridworld extends Environment
 		return result;
 	}
 	
-	public Action[] getPossibleActions(State s) //TODO
+	public Action[] getPossibleActions(State s)
 	{
 		return Gridworld.getPossibleActions();
 //		Vector<Action> result = new Vector<Action>();
@@ -135,14 +136,7 @@ public class Gridworld extends Environment
 //		return (Action[])(result.toArray(new Action[result.size()]));
 	}
 
-	public State[] getPossibleNextStates(State s, Action a) {
-		return null; //TODO
-	}
-	public State[] getPossibleNextStates(StateActionPair sap) {
-		return this.getPossibleNextStates(sap.state, sap.action);
-	}
-
-	public TransitionProbability[] getTransitionProbabilities(State s, Action a) //TODO
+	public TransitionProbability[] getTransitionProbabilities(State s, Action a)
 	{
 		TransitionProbability[] result = new TransitionProbability[4];
 		

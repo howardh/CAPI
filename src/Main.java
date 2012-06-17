@@ -12,8 +12,8 @@ public class Main
 		//env.displayStateValues();
 		
 		//valueIteration(env);
-		policyIteration(env);
-		//capi(env);
+		//policyIteration(env);
+		capi(env);
 		//capi2(env);
 		
 //		CPolicy p = new CPolicy();
@@ -54,14 +54,14 @@ public class Main
 	static void capi(Environment env)
 	{
 		CAPIAgent ca = new CAPIAgent(env);
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 30; i++)
 		{
 			//ca.displayPolicy();
 			ca.loop();
 			//ca.displayPolicy();
 			System.out.println(i + " " + env.computeLoss(ca.policy));
 		}
-		ca.displayActionValues();
+		//ca.displayActionValues();
 	}
 	
 	static void capi2(Environment env)

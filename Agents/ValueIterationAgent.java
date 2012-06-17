@@ -1,6 +1,3 @@
-import java.util.HashMap;
-
-
 public class ValueIterationAgent extends Agent
 {
 	State[] stateSpace;
@@ -15,7 +12,6 @@ public class ValueIterationAgent extends Agent
 		Action[] actions;
 		for (State s : stateSpace)
 		{
-			this.stateValue.put(s, 0.0);
 			actions = env.getPossibleActions(s);
 			this.policy.put(s, actions[(int)(Math.random()*Integer.MAX_VALUE)%actions.length]);
 		}
@@ -23,7 +19,7 @@ public class ValueIterationAgent extends Agent
 
 	public void loop()
 	{
-		HashMap<State,Double> prevStateValue = (HashMap<State, Double>) (this.ISOLATE_ITERATIONS ? this.stateValue.clone() : this.stateValue);
+		Value prevStateValue = this.ISOLATE_ITERATIONS ? new Value(this.value) : this.value;
 		
 		for (State s : stateSpace)
 		{
@@ -38,7 +34,7 @@ public class ValueIterationAgent extends Agent
 				}
 				targetVal = Math.max( targetVal, sum);
 			}
-			this.stateValue.put(s, targetVal);
+			this.value.put(s, targetVal);
 		}
 		
 		for (State s: stateSpace)
@@ -59,7 +55,7 @@ public class ValueIterationAgent extends Agent
 			tempValue = 0;
 			for (TransitionProbability tp : tProbs)
 			{
-				tempValue += tp.probability*(env.getReward(tp.saPair,tp.state) + gamma*this.stateValue.get(tp.state));
+				tempValue += tp.probability*(env.getReward(tp.saPair,tp.state) + gamma*this.value.get(tp.state));
 			}
 			
 			if (maxValue <= tempValue)

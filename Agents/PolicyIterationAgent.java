@@ -13,7 +13,6 @@ public class PolicyIterationAgent extends Agent
 		Action[] actions;
 		for (State s : stateSpace)
 		{
-			this.stateValue.put(s, 0.0);
 			actions = env.getPossibleActions(s);
 			//this.policy.put(s, actions[(int)(Math.random()*Integer.MAX_VALUE)%actions.length]);
 			//this.policy.put(s, actions[0]);
@@ -29,7 +28,7 @@ public class PolicyIterationAgent extends Agent
 
 	private void policyEvaluation()
 	{
-		this.stateValue = env.computeStateValues(this.policy);
+		this.value = env.computeStateValues(this.policy);
 	}
 
 	private void policyImprovement()
@@ -45,7 +44,7 @@ public class PolicyIterationAgent extends Agent
 				double total = 0;
 				for (TransitionProbability tp : tProbs)
 				{
-					total += tp.probability*(env.getReward(tp.saPair,tp.state)+GAMMA*this.stateValue.get(tp.state));
+					total += tp.probability*(env.getReward(tp.saPair,tp.state)+GAMMA*this.value.get(tp.state));
 				}
 				
 				if (total >= bestActionValue)

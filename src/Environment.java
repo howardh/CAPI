@@ -1,6 +1,3 @@
-
-import java.util.HashMap;
-
 /**
  * Only usable for environments with a finite state and action space
  */
@@ -8,8 +5,7 @@ public abstract class Environment
 {
 	double gamma = 0.99; //Used for value computations
 	final double theta = 1e-24;	//Max error
-	protected HashMap<StateActionPair,Double> actionValue;	//Optimal Q
-	protected HashMap<State,Double> stateValue;				//Optimal V
+	protected Value value;	//Optimal value function
 	
 	//Optimal value computation functions
 	public void computeValues()
@@ -20,26 +16,19 @@ public abstract class Environment
 	}
 	private void computeStateValues()
 	{
-		this.stateValue = new HashMap<State,Double>();
+//		value = new Value(this);
+//		this.stateValue = new HashMap<State,Double>();
 		State[] ss = this.getStateSpace();
 		for (State s : ss)
 		{
-			this.stateValue.put(s, this.getBestActionValue(s));
+			this.value.put(s, this.getBestActionValue(s));
 		}
 	}
 	private void computeActionValues()
 	{
 		//Initialize
 		State[] ss = this.getStateSpace();
-		actionValue = new HashMap<StateActionPair,Double>();
-		for (State s : ss)
-		{
-			Action[] as = this.getPossibleActions(s);
-			for (Action a : as)
-			{
-				actionValue.put(new StateActionPair(s,a), 0.0);
-			}
-		}
+		value = new Value(this);
 		//Compute
 		double delta;
 		do
@@ -48,7 +37,7 @@ public abstract class Environment
 			for (State s : ss) for (Action a : this.getPossibleActions(s)) //For each state-action pair
 			{
 				StateActionPair sap = new StateActionPair(s,a);
-				double prevV = this.actionValue.get(sap);
+				double prevV = this.value.get(sap);
 				
 				TransitionProbability[] tProbs = this.getTransitionProbabilities(s, a);
 				double tempV = 0;
@@ -56,9 +45,9 @@ public abstract class Environment
 				{
 					tempV += tp.probability*(this.getReward(s,a,tp.state) + gamma*this.getBestActionValue(tp.state));
 				}
-				this.actionValue.put(sap, tempV);
+				this.value.put(sap, tempV);
 				
-				delta = Math.max(delta, Math.abs(prevV - this.actionValue.get(sap)));
+				delta = Math.max(delta, Math.abs(prevV - this.value.get(sap)));
 			}
 		} while (delta > theta);
 	}
@@ -69,19 +58,19 @@ public abstract class Environment
 		double bestActionValue = -Double.MAX_VALUE;
 		for (Action a : actions)
 		{
-			if (bestActionValue < this.actionValue.get(new StateActionPair(s,a)))
+			if (bestActionValue < this.value.get(new StateActionPair(s,a)))
 			{
 				//Replace best action value with that of action a
-				bestActionValue = this.actionValue.get(new StateActionPair(s,a));
+				bestActionValue = this.value.get(new StateActionPair(s,a));
 			}
 		}
 		return bestActionValue;
 	}
 	//Values under a fixed policy
-	public HashMap<State,Double> computeStateValues(Policy pi) //TODO: Verify correctness
+	public Value computeStateValues(Policy pi) //TODO: Verify correctness
 	{
 		//Declare/Initialise variables
-		HashMap<State,Double> val = new HashMap<State,Double>();
+		Value val = new Value(this);
 		State[] ss = this.getStateSpace();
 		for (State s : ss)
 		{
@@ -116,11 +105,11 @@ public abstract class Environment
 	public double computeLoss(Policy policy)
 	{
 		State[] ss = this.getStateSpace();
-		HashMap<State,Double> vHat = this.computeStateValues(policy);
+		Value vHat = this.computeStateValues(policy);
 		double total = 0;
 		for (State s : ss)
 		{
-			total += Math.abs(vHat.get(s) - this.stateValue.get(s));
+			total += Math.abs(vHat.get(s) - this.value.get(s));
 		}
 		return total/ss.length;
 	}
@@ -132,9 +121,6 @@ public abstract class Environment
 	public static Action[] getPossibleActions() { System.err.println("Environment.getPossibleActions() not overridden."); return null; }
 	public abstract Action[] getPossibleActions(State s);
 	
-	//Gives an array of all possible states that can come of taking action a at state s
-	public abstract State[] getPossibleNextStates(State s, Action a);
-	public abstract State[] getPossibleNextStates(StateActionPair sap);
 	//Gives an outcome (stochastic) for taking a certain action
 	public State getNextState(StateActionPair sap)
 	{
@@ -170,7 +156,7 @@ public abstract class Environment
 	{
 		for (State s : this.getStateSpace())
 		{
-			System.out.println(s.state + "\t" + this.stateValue.get(s));
+			System.out.println(s.state + "\t" + this.value.get(s));
 		}
 	}
 	public void displayActionValues() {}

@@ -25,9 +25,6 @@
  * 		}
  */
 
-import java.util.HashMap;
-
-
 public class CAPIAgent extends Agent
 {
 	State[] stateSpace;
@@ -52,11 +49,11 @@ public class CAPIAgent extends Agent
 		for (State s : stateSpace)
 		{
 			actions = env.getPossibleActions(s);
-			this.stateValue.put(s, 0.0);
+			this.value.put(s, 0.0);
 			this.gPolicy.put(s, actions[0]);
 			for (Action a : actions)
 			{
-				this.actionValue.put(new StateActionPair(s, a),0.0);
+				this.value.put(new StateActionPair(s, a),0.0);
 			}
 		}
 	}
@@ -88,9 +85,9 @@ public class CAPIAgent extends Agent
 						sum += tp.probability*(env.getReward(sap, tp.state)+gamma*getActionValue(tp.state, a2));
 					}
 					
-					double prevV = this.actionValue.get(sap);
-					this.actionValue.put(sap, sum);
-					delta = Math.max(delta, Math.abs(prevV-this.actionValue.get(sap)));
+					double prevV = this.value.get(sap);
+					this.value.put(sap, sum);
+					delta = Math.max(delta, Math.abs(prevV-this.value.get(sap)));
 				}
 			}
 		} while (delta > theta);
@@ -122,14 +119,9 @@ public class CAPIAgent extends Agent
 		return bestAction;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void constructPolicy() 
 	{
-		//TODO complete me.
-		//TODO: Make this work for any environment
-		//FIXME: This assumes that the provided state space is in numerical order.
-		//FIXME: The tested policy space is missing two policies. They're marked below.
-		Action[] a = Gridworld.getPossibleActions(); //FIXME: Remove reference to Gridworld here
+		Action[] a = Chain.getPossibleActions(); //FIXME: Remove reference to Gridworld here
 		
 		CPolicy currentPolicy = new CPolicy();
 		for (State s : stateSpace) 
