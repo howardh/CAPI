@@ -1,6 +1,6 @@
+
 import java.util.HashMap;
 import java.util.Vector;
-
 
 public class Gridworld extends Environment
 {
@@ -56,6 +56,7 @@ public class Gridworld extends Environment
 									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 									0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+//									1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,}};
 									0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0,0,0,0,0,0,0,0,0,0,}};
 	final static int WIDTH = world[0].length;	
 	final static int HEIGHT = world.length;	
@@ -235,7 +236,12 @@ public class Gridworld extends Environment
 
 	public double getReward(State s)
 	{
-		return reward[s.y][s.x];
+		//return reward[s.y][s.x];
+		if (s.x+1 >= 10 && s.x+1 <= 15)
+			return 1.0;
+		if (s.x+1 >= 180 && s.x+1 <= 190)
+			return 0.1;
+		return 0;
 	}
 
 	public double getReward(State s, Action a, State finalState)

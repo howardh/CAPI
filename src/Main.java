@@ -1,17 +1,18 @@
 
+
 public class Main
 {
 	public static void main(String args[])
 	{
 		Gridworld env = new Gridworld();
-		env.displayEnvironment();
-		//env.computeValues();
+		//env.displayEnvironment();
+		env.computeValues();
 		//env.displayActionValues();
 		//env.displayStateValues();
 		
 		//valueIteration(env);
-		//policyIteration(env);
-		capi(env);
+		policyIteration(env);
+		//capi(env);
 		//capi2(env);
 		
 //		CPolicy p = new CPolicy();
@@ -25,11 +26,11 @@ public class Main
 	{
 		PolicyIterationAgent pia = new PolicyIterationAgent(env);
 		//via.displayStateValue();
-		for (int i = 0; i < 30; i++)
+		for (int i = 0; i < 300; i++)
 		{
-			//pia.displayPolicy();
+			pia.displayPolicy();
 			pia.loop();
-			System.out.println(i + " " + env.computeLoss(pia.policy));
+			//System.out.println(i + " " + env.computeLoss(pia.policy));
 		}
 		pia.displayPolicy();
 		//pia.displayStateValue();
@@ -52,14 +53,14 @@ public class Main
 	static void capi(Environment env)
 	{
 		CAPIAgent ca = new CAPIAgent(env);
-		for (int i = 0; i < 30; i++)
+		for (int i = 0; i < 5; i++)
 		{
-			ca.displayPolicy();
+			//ca.displayPolicy();
 			ca.loop();
 			//ca.displayPolicy();
-			//System.out.println(i + " " + env.computeLoss(ca.policy));
+			System.out.println(i + " " + env.computeLoss(ca.policy));
 		}
-		//ca.displayActionValues();
+		ca.displayActionValues();
 	}
 	
 	static void capi2(Environment env)

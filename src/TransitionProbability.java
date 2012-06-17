@@ -1,4 +1,3 @@
-
 public class TransitionProbability
 {
 	public StateActionPair saPair;	//Starting condition

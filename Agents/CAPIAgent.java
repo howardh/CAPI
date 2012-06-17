@@ -27,6 +27,7 @@
 
 import java.util.HashMap;
 
+
 public class CAPIAgent extends Agent
 {
 	State[] stateSpace;
@@ -41,6 +42,9 @@ public class CAPIAgent extends Agent
 		super(e);
 		
 		policy = new CPolicy();
+		((CPolicy)policy).next();
+		((CPolicy)policy).next();
+		((CPolicy)policy).next();
 		gPolicy = new Policy();
 		
 		this.stateSpace = e.getStateSpace();
@@ -128,7 +132,6 @@ public class CAPIAgent extends Agent
 		Action[] a = Gridworld.getPossibleActions(); //FIXME: Remove reference to Gridworld here
 		
 		CPolicy currentPolicy = new CPolicy();
-		currentPolicy.next();
 		for (State s : stateSpace) 
 		{
 			currentPolicy.put(s, a[0]);

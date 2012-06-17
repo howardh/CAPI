@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 public abstract class Agent
 {
 	protected HashMap<StateActionPair,Double> actionValue;	//Q
