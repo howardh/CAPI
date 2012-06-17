@@ -128,6 +128,7 @@ public class CAPIAgent extends Agent
 		Action[] a = Gridworld.getPossibleActions(); //FIXME: Remove reference to Gridworld here
 		
 		CPolicy currentPolicy = new CPolicy();
+		currentPolicy.next();
 		for (State s : stateSpace) 
 		{
 			currentPolicy.put(s, a[0]);
