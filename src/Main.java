@@ -4,7 +4,7 @@ public class Main
 	public static void main(String args[])
 	{
 		Gridworld env = new Gridworld();
-		//env.displayEnvironment();
+		env.displayEnvironment();
 		//env.computeValues();
 		//env.displayActionValues();
 		//env.displayStateValues();

@@ -139,7 +139,7 @@ public class CAPIAgent extends Agent
 		do
 		{
 			currentLoss = this.getLoss(currentPolicy);
-			if (currentLoss < bestLoss)
+			if (currentLoss <= bestLoss)
 			{
 				bestLoss = currentLoss;
 				bestPolicy = new CPolicy(currentPolicy);

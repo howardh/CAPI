@@ -230,20 +230,6 @@ public class Gridworld extends Environment
 			tp.probability /= totalProb;
 		}
 		
-		
-		/*
-		TransitionProbability[] result = new TransitionProbability[1];
-		result[0] = new TransitionProbability();
-		result[0].probability = 1;
-		result[0].saPair = new StateActionPair(s,a);
-		switch (a.action)
-		{
-			case Action.UP: result[0].state = new State(s.x,s.y-1); break;
-			case Action.DOWN: result[0].state = new State(s.x,s.y+1); break;
-			case Action.LEFT: result[0].state = new State(s.x-1,s.y); break;
-			case Action.RIGHT: result[0].state = new State(s.x+1,s.y); break;
-		}
-		*/
 		return result;
 	}
 
