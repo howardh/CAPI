@@ -1,3 +1,7 @@
+import gridworld.Action;
+import gridworld.State;
+import parent.Environment;
+
 
 
 public class CAPIAgent2 extends CAPIAgent

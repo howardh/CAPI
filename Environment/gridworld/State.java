@@ -1,3 +1,4 @@
+package gridworld;
 
 
 
@@ -8,7 +9,8 @@ public class State
 	{
 		this.x = x;
 		this.y = y;
-		state = "("+x+","+y+")";
+		//state = "("+x+","+y+")";
+		state = x + "";
 	}
 	
 	public int x;

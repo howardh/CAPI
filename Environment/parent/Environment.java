@@ -1,9 +1,14 @@
+package parent;
+import gridworld.Action;
+import gridworld.Policy;
+import gridworld.State;
+
 /**
  * Only usable for environments with a finite state and action space
  */
 public abstract class Environment
 {
-	double gamma = 0.99; //Used for value computations
+	final double gamma = 0.99; //Used for value computations
 	final double theta = 1e-24;	//Max error
 	protected Value value;	//Optimal value function
 	
@@ -50,6 +55,7 @@ public abstract class Environment
 				delta = Math.max(delta, Math.abs(prevV - this.value.get(sap)));
 			}
 		} while (delta > theta);
+		System.out.println("Delta: " + delta);
 	}
 	//Helper functions for optimal value computation
 	private double getBestActionValue(State s)

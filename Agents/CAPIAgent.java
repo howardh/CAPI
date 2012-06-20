@@ -1,3 +1,12 @@
+import gridworld.Action;
+import gridworld.CPolicy;
+import gridworld.Chain;
+import gridworld.Policy;
+import gridworld.State;
+import parent.Environment;
+import parent.StateActionPair;
+import parent.TransitionProbability;
+
 /*
  * Let pi = a random policy
  * Let K = the number of iterations (a constant)
@@ -40,8 +49,8 @@ public class CAPIAgent extends Agent
 		
 		policy = new CPolicy();
 		((CPolicy)policy).next();
-		((CPolicy)policy).next();
-		((CPolicy)policy).next();
+		//((CPolicy)policy).next();
+		//((CPolicy)policy).next();
 		gPolicy = new Policy();
 		
 		this.stateSpace = e.getStateSpace();

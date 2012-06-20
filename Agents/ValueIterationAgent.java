@@ -1,3 +1,9 @@
+import gridworld.Action;
+import gridworld.State;
+import parent.Environment;
+import parent.TransitionProbability;
+import parent.Value;
+
 public class ValueIterationAgent extends Agent
 {
 	State[] stateSpace;
@@ -13,7 +19,8 @@ public class ValueIterationAgent extends Agent
 		for (State s : stateSpace)
 		{
 			actions = env.getPossibleActions(s);
-			this.policy.put(s, actions[(int)(Math.random()*Integer.MAX_VALUE)%actions.length]);
+			//this.policy.put(s, actions[(int)(Math.random()*Integer.MAX_VALUE)%actions.length]);
+			this.policy.put(s, actions[actions.length-1]);
 		}
 	}
 
